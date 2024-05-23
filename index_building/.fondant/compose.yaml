@@ -1,0 +1,191 @@
+name: index-datacomp-small-12m
+services:
+  download_images:
+    command:
+    - --metadata
+    - '{"base_path": "/index_dir", "pipeline_name": "index-datacomp-small-12m", "run_id":
+      "index-datacomp-small-12m-20240520125547", "component_id": "download_images",
+      "cache_key": "101205177696fbb2917b88d1fb0e6e58"}'
+    - --output_manifest_path
+    - /index_dir/index-datacomp-small-12m/index-datacomp-small-12m-20240520125547/download_images/manifest.json
+    - --n_connections
+    - '4'
+    - --input_partition_rows
+    - '100'
+    - --cache
+    - 'True'
+    - --operation_spec
+    - '{"specification": {"name": "Download images", "image": "fndnt/download_images:0.11.0",
+      "description": "Component that downloads images from a list of URLs.\n\nThis
+      component takes in image URLs as input and downloads the images, along with
+      some metadata \n(like their height and width). The images are stored in a new
+      colum as bytes objects. This \ncomponent also resizes the images using the \n[resizer](https://github.com/rom1504/img2dataset/blob/main/img2dataset/resizer.py)
+      function \nfrom the img2dataset library.\n", "tags": ["Data retrieval"], "consumes":
+      {"image_url": {"type": "string"}}, "produces": {"image": {"type": "binary"},
+      "image_width": {"type": "int32"}, "image_height": {"type": "int32"}}, "args":
+      {"timeout": {"description": "Maximum time (in seconds) to wait when trying to
+      download an image,", "type": "int", "default": 10}, "retries": {"description":
+      "Number of times to retry downloading an image if it fails.", "type": "int",
+      "default": 0}, "n_connections": {"description": "Number of concurrent connections
+      opened per process. Decrease this number if you are running \ninto timeout errors.
+      A lower number of connections can increase the success rate but lower \nthe
+      throughput.\n", "type": "int", "default": 100}, "image_size": {"description":
+      "Size of the images after resizing.", "type": "int", "default": 256}, "resize_mode":
+      {"description": "Resize mode to use. One of \"no\", \"keep_ratio\", \"center_crop\",
+      \"border\".", "type": "str", "default": "border"}, "resize_only_if_bigger":
+      {"description": "If True, resize only if image is bigger than image_size.",
+      "type": "bool", "default": false}, "min_image_size": {"description": "Minimum
+      size of the images.", "type": "int", "default": 0}, "max_aspect_ratio": {"description":
+      "Maximum aspect ratio of the images.", "type": "float", "default": 99.9}}},
+      "consumes": {"image_url": "url"}, "produces": {}}'
+    - --input_manifest_path
+    - /index_dir/index-datacomp-small-12m/index-datacomp-small-12m-20240520125547/load_from_hugging_face_hub/manifest.json
+    depends_on:
+      load_from_hugging_face_hub:
+        condition: service_completed_successfully
+    entrypoint:
+    - fondant
+    - execute
+    - main
+    image: fndnt/download_images:0.11.0
+    labels:
+      pipeline_description: null
+    ports:
+    - 8787:8787
+    volumes:
+    - source: /Users/david/Documents/deep/multi_modal/fondant-clip-index/index_dir
+      target: /index_dir
+      type: bind
+  embed_images:
+    command:
+    - --metadata
+    - '{"base_path": "/index_dir", "pipeline_name": "index-datacomp-small-12m", "run_id":
+      "index-datacomp-small-12m-20240520125547", "component_id": "embed_images", "cache_key":
+      "52ea97f9e7bf1722deeba83ffc4e2314"}'
+    - --output_manifest_path
+    - /index_dir/index-datacomp-small-12m/index-datacomp-small-12m-20240520125547/embed_images/manifest.json
+    - --model_id
+    - laion/CLIP-ViT-B-33-laion2B-s34B-b79K
+    - --batch_size
+    - '1'
+    - --cache
+    - 'True'
+    - --operation_spec
+    - '{"specification": {"name": "Embed images", "image": "fndnt/embed_images:0.11.0",
+      "description": "Component that generates CLIP embeddings from images", "tags":
+      ["Image processing"], "consumes": {"image": {"type": "binary"}}, "produces":
+      {"embedding": {"type": "array", "items": {"type": "float32"}}}, "args": {"model_id":
+      {"description": "Model id of a CLIP model on the Hugging Face hub", "type":
+      "str", "default": "openai/clip-vit-large-patch14"}, "batch_size": {"description":
+      "Batch size to use when embedding", "type": "int", "default": 8}}}, "consumes":
+      {"image": {"type": "binary"}}, "produces": {}}'
+    - --input_manifest_path
+    - /index_dir/index-datacomp-small-12m/index-datacomp-small-12m-20240520125547/download_images/manifest.json
+    depends_on:
+      download_images:
+        condition: service_completed_successfully
+    entrypoint:
+    - fondant
+    - execute
+    - main
+    image: fndnt/embed_images:0.11.0
+    labels:
+      pipeline_description: null
+    ports:
+    - 8787:8787
+    volumes:
+    - source: /Users/david/Documents/deep/multi_modal/fondant-clip-index/index_dir
+      target: /index_dir
+      type: bind
+  load_from_hugging_face_hub:
+    command:
+    - --metadata
+    - '{"base_path": "/index_dir", "pipeline_name": "index-datacomp-small-12m", "run_id":
+      "index-datacomp-small-12m-20240520125547", "component_id": "load_from_hugging_face_hub",
+      "cache_key": "e4fd1be80c0c1d7e9f15f8120a8da6ab"}'
+    - --output_manifest_path
+    - /index_dir/index-datacomp-small-12m/index-datacomp-small-12m-20240520125547/load_from_hugging_face_hub/manifest.json
+    - --dataset_name
+    - mlfoundations/datacomp_small
+    - --index_column
+    - uid
+    - --n_rows_to_load
+    - '100'
+    - --cache
+    - 'True'
+    - --operation_spec
+    - '{"specification": {"name": "Load from Hugging Face hub", "image": "fndnt/load_from_hf_hub:0.11.0",
+      "description": "Component that loads a dataset from the hub", "tags": ["Data
+      loading"], "produces": {"additionalProperties": true}, "args": {"dataset_name":
+      {"description": "Name of dataset on the hub", "type": "str"}, "column_name_mapping":
+      {"description": "Mapping of the consumed hub dataset to fondant column names",
+      "type": "dict", "default": {}}, "image_column_names": {"description": "Optional
+      argument, a list containing the original image column names in case the dataset
+      on the hub contains them. Used to format the image from HF hub format to a byte
+      string.", "type": "list", "default": []}, "n_rows_to_load": {"description":
+      "Optional argument that defines the number of rows to load. Useful for testing
+      pipeline runs on a small scale", "type": "int", "default": "None"}, "index_column":
+      {"description": "Column to set index to in the load component, if not specified
+      a default globally unique index will be set", "type": "str", "default": "None"}}},
+      "consumes": {}, "produces": {"url": {"type": "string"}}}'
+    depends_on: {}
+    entrypoint:
+    - fondant
+    - execute
+    - main
+    image: fndnt/load_from_hf_hub:0.11.0
+    labels:
+      pipeline_description: null
+    ports:
+    - 8787:8787
+    volumes:
+    - source: /Users/david/Documents/deep/multi_modal/fondant-clip-index/index_dir
+      target: /index_dir
+      type: bind
+  write_to_file:
+    command:
+    - --metadata
+    - '{"base_path": "/index_dir", "pipeline_name": "index-datacomp-small-12m", "run_id":
+      "index-datacomp-small-12m-20240520125547", "component_id": "write_to_file",
+      "cache_key": "6ff765f5f90fe5a059eb8a877e5b60c6"}'
+    - --output_manifest_path
+    - /index_dir/index-datacomp-small-12m/index-datacomp-small-12m-20240520125547/write_to_file/manifest.json
+    - --path
+    - ./index_dir/output
+    - --format
+    - parquet
+    - --cache
+    - 'True'
+    - --operation_spec
+    - '{"specification": {"name": "Write to file", "image": "fndnt/write_to_file:0.11.0",
+      "description": "A Fondant component to write a dataset to file on a local machine
+      or to a cloud storage bucket. The dataset can be written as csv or parquet.",
+      "tags": ["Data writing"], "consumes": {"additionalProperties": true}, "args":
+      {"path": {"description": "Path to store the dataset, whether it''s a local path
+      or a cloud storage bucket,  must be specified. A separate filename will be generated
+      for each partition. If you are using the local runner and export the data to
+      a local directory,  ensure that you mount the path to the directory using the
+      `--extra-volumes` argument.", "type": "str"}, "format": {"description": "Format
+      for storing the dataframe can be either `csv` or `parquet`. As default  `parquet`
+      is used. The CSV files contain the column as a header and use a comma as a delimiter.",
+      "type": "str", "default": "parquet"}}}, "consumes": {"embedding": {"type": "array",
+      "items": {"type": "float32"}}, "url": {"type": "string"}}, "produces": {}}'
+    - --input_manifest_path
+    - /index_dir/index-datacomp-small-12m/index-datacomp-small-12m-20240520125547/embed_images/manifest.json
+    depends_on:
+      embed_images:
+        condition: service_completed_successfully
+    entrypoint:
+    - fondant
+    - execute
+    - main
+    image: fndnt/write_to_file:0.11.0
+    labels:
+      pipeline_description: null
+    ports:
+    - 8787:8787
+    volumes:
+    - source: /Users/david/Documents/deep/multi_modal/fondant-clip-index/index_dir
+      target: /index_dir
+      type: bind
+version: '3.8'
