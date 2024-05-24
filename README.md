@@ -30,7 +30,7 @@ To further fuse the two embeddings, multiple self attention layers and another m
 </p>
 
 ### Build Index Service for Targets
-What should be return for query requests? We crawl images across the blockchain ledger, for each image, we add a default dummy text "" along with it to the two way encoders to get the final embedding, which we call r_t, we then store all the embeddings and build a KNN service that you can query into, then gives back k nearest neighrbors in the embedding space. To know more index building, refer to folder **index_building**, if you also want to dive deep into the way the backend hosting the Index Service, you can go to the folder **clip_index__back**.
+What should be return for query requests? We crawl images across the blockchain ledger, for each image, we add a default dummy text "" along with it and feed them to the two way encoders to get the final embedding, which we call r_t, we then store all the embeddings and build a KNN service that you can query into, the KNN service will then give back k nearest neighrbors in the embedding space. To know more index building, refer to folder **index_building**, if you also want to dive deep into the way the backend hosting the Index Service, you can go to the folder **clip_index__back**.
 
 ### Start Services
 A utility scripts **run.sh** is provided to start the query service locally.
