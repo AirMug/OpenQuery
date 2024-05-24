@@ -7,7 +7,7 @@ Usually in this context, 'match' is used interchangeablly as "being similar/clos
 
 <p align="center">
     <img src="./media/lake_titicaca.jpg" alt="Lake Titicaca: What are other sight-seeings in the country?">
-    <p align="center"> Lake Titicaca -> What are other sight-seeings in the country? </p>
+    <p align="center"> Lake Titicaca -> What other sight-seeings are in the country? </p>
 </p>
 We want to express more search intents! To give you an idea, say you're in Lake Titicaca, you shoot and upload an image, hoping to know other great sight-seeings in the country where the lake locates, the desired result returned should not be those that are similar to Lake Titicaca, we want to query information not based on "being similar", so traditional information retrival system cannot handle our search requests in such cases.
 
