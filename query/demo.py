@@ -184,10 +184,10 @@ if __name__ == '__main__':
         test_fps(1)
         exit()
 
-    client = ClipClient(url="http://192.168.0.106:1235/knn-service",
+    client = ClipClient(url="http://192.168.0.101:1235/knn-service",
                         indice_name="fondant_datacomp_small") # always huge
     
-    title = 'Zeroshot CIR demo'
+    title = 'Open-Ended Relational Query'
     md_title = f'''# {title} 
 
     K-NN index for the retrieval results are trained using the datacomp 12m small imageset. 
@@ -202,7 +202,7 @@ if __name__ == '__main__':
                 model_name = gr.Radio(['lincir', 'searle', 'pic2word'], label='Phi model', value='lincir')
                 text_input = gr.Textbox(value='', label='Input text guidance. Special token is $')
                 submit_button = gr.Button('Submit')
-                gr.Examples([["example1.jpg", "what does the animal in the picture like to eat?", 'lincir']], inputs=[image_source, text_input, model_name])
+                gr.Examples([["example1.jpg", "where does the animal in the picture live?", 'lincir']], inputs=[image_source, text_input, model_name])
             with gr.Column():
                 json_output = gr.JSON(label='Processing time')
                 md_output = gr.Markdown(label='Output')
