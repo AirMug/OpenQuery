@@ -358,9 +358,6 @@ class KnnService(Resource):
                     nprobe = math.ceil(num_result_ids / 3000)
                     params = faiss.ParameterSpace()
                     params.set_index_parameters(index, f"nprobe={nprobe},efSearch={nprobe*2},ht={2048}")
-            print("flag: clip back")
-            # print("query: ", query)
-            print("num_result_ids: ", num_result_ids)
             distances, indices, embeddings = index.search_and_reconstruct(query, num_result_ids)
             if clip_resource.metadata_is_ordered_by_ivf:
                 results = np.take(ivf_old_to_new_mapping, indices[0])
@@ -808,7 +805,6 @@ class ClipOptions:
 
 
 def dict_to_clip_options(d, clip_options):
-    print("flag 2")
     return ClipOptions(
         indice_folder=d["indice_folder"] if "indice_folder" in d else clip_options.indice_folder,
         clip_model=d["clip_model"] if "clip_model" in d else clip_options.clip_model,
@@ -869,9 +865,7 @@ def load_clip_index(clip_options):
     from all_clip import load_clip  # pylint: disable=import-outside-toplevel
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print("flag 4", device)
     model, preprocess, tokenizer = load_clip(clip_options.clip_model, use_jit=clip_options.use_jit, device=device)
-    print("flag 5")
     if clip_options.enable_mclip_option:
         model_txt_mclip = load_mclip(clip_options.clip_model)
     else:
@@ -946,12 +940,9 @@ def load_clip_indices(
     for name, indice_value in indices.items():
         # if indice_folder is a string
         if isinstance(indice_value, str):
-            print("flag 0")
             clip_options = dict_to_clip_options({"indice_folder": indice_value}, clip_options)
         elif isinstance(indice_value, dict):
-            print("flag 1")
             clip_options = dict_to_clip_options(indice_value, clip_options)
-            print("flag 3")
         else:
             raise ValueError("Unknown type for indice_folder")
         clip_resources[name] = load_clip_index(clip_options)

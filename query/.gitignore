@@ -3,3 +3,4 @@ __pycache__/
 datasets/
 hf_models/
 pretrained_models/
+datacamp_small
