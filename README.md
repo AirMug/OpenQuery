@@ -70,12 +70,6 @@ Below are images that are Szechuan related! which examplifies that we can provid
     <p align="center"> Szechuan Cuisine!  </p>
 </p>
 
-### History of participation in other hackthons
-None, it's a new project.
-
-### History of awards/grants/funding
-None for a new project.
-
 ## Issues and What next
 ### Performance Improvements
 The index laion5B was offline, we use a much much smaller version of index, datacomp_small_12m thanks to **Fondant**, as you can tell from the names, it's 5B versus 12m (only 9m used).
