@@ -82,10 +82,16 @@ The index laion5B was offline, we use a much much smaller version of index, data
 We expect the performance would be much better if laion5B would be back online in the near future. If we plan to craws all data across a blockchain ledger, which would require much better computation resources, your grant will definitely help!
 
 ### Better UI/UX
-Due to the time constraint, we don't devote much time on the UI/UX, we expect a much better experience for users.
+Due to the time constraint, we don't devote much time on the UI/UX, we expect much better experience for users.
 
 ### More Modalities
 In this project, we use text and vision to show our ability to do multi-modal retrieval, but we strongly believe this project can be extended to other modalities like audio, point cloud etc. 
 
 ### Cross-Chain Infrastructure
-Information retrieval by nature is platform agnostic, we hope multi-modal or open-ended information retrival can serve as a shared infrastruture for all blockchains. This is not a deviation from Decentralization, but to make our service available to as broader as possible users which echoes Decentralization.
+Information retrieval by nature is platform agnostic, we hope multi-modal or open-ended information retrieval can serve as a shared infrastruture for all blockchains. This is not a deviation from Decentralization, but to make our service available to as broader as possible users which echoes Decentralization.
+
+## Acknowledgment
+Thanks to [Kai Zhang](https://github.com/drogozhang) etc, we now have the multi-modal retrieval model [MagicLens](https://github.com/google-deepmind/magiclens.git) as a starter for this project!
+
+## References
+[1] [MagicLens : Self-Supervised Image Retrieval with Open-Ended Instructions](https://arxiv.org/pdf/2403.19651)

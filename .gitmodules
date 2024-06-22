@@ -1,0 +1,3 @@
+[submodule "query/inference"]
+	path = query/inference
+	url = https://github.com/google-deepmind/magiclens.git
